@@ -14,7 +14,12 @@ public class MechaDrive extends OpMode {
     private DcMotor rightRear;
     private DcMotor leftFront;
     private DcMotor leftRear;
-  // private Servo flipper;
+    private DcMotor lift;
+    private DcMotor backIntake;
+    private DcMotor frontIntake;
+    private Servo turnTable;
+
+
     /*private DcMotor liftMotor;
     public static final double MID_SERVO       =  0.5 ;
     public static final double LIFT_UP_POWER    =  0.45 ;
@@ -27,7 +32,10 @@ public class MechaDrive extends OpMode {
         leftRear = hardwareMap.get(DcMotor.class, "leftRear");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
-       // flipper = hardwareMap.get(Servo.class,"flipper");
+        lift = hardwareMap.get(DcMotor.class, "lift");
+        turnTable = hardwareMap.get(Servo.class,"turntable");
+        frontIntake = hardwareMap.get(DcMotor.class, "frontIntake");
+        backIntake = hardwareMap.get(DcMotor.class,"backIntake");
         //liftMotor = hardwareMap.get(DcMotor.class,"liftMotor");
        // rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
        // rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -44,6 +52,8 @@ public class MechaDrive extends OpMode {
         double rr = -gamepad1.right_stick_y + gamepad1.right_stick_x -gamepad1.left_stick_x;
         double lf = gamepad1.right_stick_y + gamepad1.right_stick_x  -gamepad1.left_stick_x;
         double lr = gamepad1.right_stick_y -gamepad1.right_stick_x -gamepad1.left_stick_x;
+        double tablePosition = 0;
+        double liftCounter = 0;
         if(Math.abs(rf) >= 0.1 || Math.abs(rr) >= 0.1 || Math.abs(lf) >= 0.1 || Math.abs(lr) >= 0.1){
             rightFront.setPower(rf);
             rightRear.setPower(rr);
@@ -56,10 +66,58 @@ public class MechaDrive extends OpMode {
             leftRear.setPower(0);
             leftFront.setPower(0);
         }
+        //Turn Table--------------------------------------------------------------------------------
+        if(gamepad2.dpad_right){
+            if (tablePosition >= 360){
+               tablePosition = 0;
+            }
+            turnTable.setPosition(tablePosition + 90);
+        }
+        else if (gamepad2.dpad_left){
 
+            if (tablePosition <= 0){
+                tablePosition = 360;
+            }
+            turnTable.setPosition(tablePosition - 90);
+        } else {
+            turnTable.setPosition(tablePosition);
+        }
+        // Lift ------------------------------------------------------------------------------------
+        if(gamepad2.dpad_up){
+            lift.setPower(0.5);
+            liftCounter = 1;
+        }
+        else if(gamepad2.dpad_down){
+            lift.setPower(-0.1);
+            liftCounter = 0;
+        }
+        else if (liftCounter == 1){
+           lift.setPower(0.15);
+        } else {
+            lift.setPower(0.0);
         }
 
+        //Intake-----------------------------------------------------------------------------------
+        if(gamepad2.right_bumper){
+          frontIntake.setPower(1.0);
+          backIntake.setPower(-1.0);
+        }
+        else if(gamepad2.left_bumper){
+            frontIntake.setPower(-1.0);
+            backIntake.setPower(1.0);
+        } else {
+            frontIntake.setPower(0.0);
+            backIntake.setPower(0.0);
+        }
     }
+
+
+
+
+
+
+
+
 
     /*
      * Code to run ONCE after the driver hits STOP
