@@ -18,6 +18,8 @@ public class MechaDrive extends OpMode {
     private DcMotor backIntake;
     private DcMotor frontIntake;
     private Servo turnTable;
+    private Servo trapDoor;
+    private DcMotor ducky;
 
 
     /*private DcMotor liftMotor;
@@ -33,9 +35,11 @@ public class MechaDrive extends OpMode {
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         lift = hardwareMap.get(DcMotor.class, "lift");
-        turnTable = hardwareMap.get(Servo.class,"turntable");
         frontIntake = hardwareMap.get(DcMotor.class, "frontIntake");
         backIntake = hardwareMap.get(DcMotor.class,"backIntake");
+        turnTable = hardwareMap.get(Servo.class,"turntable");
+        ducky = hardwareMap.get(DcMotor.class, "Duck Spinner");
+
         //liftMotor = hardwareMap.get(DcMotor.class,"liftMotor");
        // rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
        // rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -53,7 +57,6 @@ public class MechaDrive extends OpMode {
         double lf = gamepad1.right_stick_y + gamepad1.right_stick_x  -gamepad1.left_stick_x;
         double lr = gamepad1.right_stick_y -gamepad1.right_stick_x -gamepad1.left_stick_x;
         double tablePosition = 0;
-        double liftCounter = 0;
         if(Math.abs(rf) >= 0.1 || Math.abs(rr) >= 0.1 || Math.abs(lf) >= 0.1 || Math.abs(lr) >= 0.1){
             rightFront.setPower(rf);
             rightRear.setPower(rr);
@@ -68,33 +71,20 @@ public class MechaDrive extends OpMode {
         }
         //Turn Table--------------------------------------------------------------------------------
         if(gamepad2.dpad_right){
-            if (tablePosition >= 360){
-               tablePosition = 0;
-            }
-            turnTable.setPosition(tablePosition + 90);
-        }
-        else if (gamepad2.dpad_left){
-
-            if (tablePosition <= 0){
-                tablePosition = 360;
-            }
-            turnTable.setPosition(tablePosition - 90);
-        } else {
-            turnTable.setPosition(tablePosition);
+            turnTable.setPosition(0.5);
+                 }
+        else {
+            turnTable.setPosition(-0.5);
         }
         // Lift ------------------------------------------------------------------------------------
         if(gamepad2.dpad_up){
             lift.setPower(0.5);
-            liftCounter = 1;
         }
         else if(gamepad2.dpad_down){
             lift.setPower(-0.1);
-            liftCounter = 0;
         }
-        else if (liftCounter == 1){
-           lift.setPower(0.15);
-        } else {
-            lift.setPower(0.0);
+        else {
+            lift.setPower(0.15);
         }
 
         //Intake-----------------------------------------------------------------------------------
@@ -109,7 +99,26 @@ public class MechaDrive extends OpMode {
             frontIntake.setPower(0.0);
             backIntake.setPower(0.0);
         }
+       // Box----------------------------------------------------------------------------------------
+       if (gamepad2.a){
+            trapDoor.setPosition(0.25);
+           }
+       else {
+            trapDoor.setPosition(-0.25);
+       }
+       // Duck Spinner-------------------------------------------------------------------------------
+
+        if(gamepad1.right_bumper){
+            ducky.setPower(0.33);
+        } else if(gamepad1.left_bumper){
+            ducky.setPower(-0.33);
+        } else {
+            ducky.setPower(0.0);
+        }
+
     }
+
+    //hello
 
 
 

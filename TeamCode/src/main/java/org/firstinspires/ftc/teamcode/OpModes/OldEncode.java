@@ -34,8 +34,8 @@ public class OldEncode extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-          gabemove(200,200,-200,-200);
-           gabemove(200,200,200,200);
+          //gabemove(200,200,-200,-200);
+           //gabemove(200,200,200,200);
             //flipper.setPosition(1.0);
 
 
@@ -46,10 +46,24 @@ public class OldEncode extends LinearOpMode {
         }
 
     }
+    public void move(double lf, double rf, double lr, double rr) {
 
+
+        rightRear.setPower(rr);
+        leftRear.setPower(lr);
+
+
+        sleep(500);
+
+        rightRear.setPower(0);
+        leftRear.setPower(0);
+
+        sleep(500);
+
+    }
 
     //----------------------------encoder-----------------
-    public void gabemove(int rf, int rb, int lf, int lb) {
+    /*public void gabemove(int rf, int rb, int lf, int lb) {
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -84,7 +98,7 @@ public class OldEncode extends LinearOpMode {
         rightRear.setPower(0);
         leftFront.setPower(0);
         rightFront.setPower(0);
-        leftRear.setPower(0);
+        leftRear.setPower(0);*/
 
 
     }
