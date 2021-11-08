@@ -15,8 +15,11 @@ public class OldEncode extends LinearOpMode {
     private DcMotor rightRear;
     private DcMotor leftFront;
     private DcMotor leftRear;
-   // private Servo flipper;
-   // private DcMotor liftMotor;
+    private Servo flipper;
+    private DcMotor lift;
+    private Servo box;
+    private Servo frontTurnTable;
+    private Servo backTurnTable;
 
     @Override
 
@@ -27,17 +30,19 @@ public class OldEncode extends LinearOpMode {
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         //flipper = hardwareMap.get(Servo.class,"flipper");
-       // liftMotor = hardwareMap.get(DcMotor.class,"liftMotor");
+        lift = hardwareMap.get(DcMotor.class,"lift");
+        box = hardwareMap.get(Servo.class, "box");
+        frontTurnTable = hardwareMap.get(Servo.class, "frontTurnTable");
+        backTurnTable = hardwareMap.get(Servo.class, "backTurnTable");
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
 
         while (opModeIsActive()) {
-          //gabemove(200,200,-200,-200);
-           //gabemove(200,200,200,200);
+            //gabemove(200,200,-200,-200);
+            //gabemove(200,200,200,200);
             //flipper.setPosition(1.0);
-
 
 
             sleep(4000);
@@ -46,6 +51,7 @@ public class OldEncode extends LinearOpMode {
         }
 
     }
+
     public void move(double lf, double rf, double lr, double rr) {
 
 
@@ -63,7 +69,7 @@ public class OldEncode extends LinearOpMode {
     }
 
     //----------------------------encoder-----------------
-    /*public void gabemove(int rf, int rb, int lf, int lb) {
+    public void mf(int rf, int rb, int lf, int lb) {
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -88,8 +94,8 @@ public class OldEncode extends LinearOpMode {
 
         while (leftFront.isBusy() && leftRear.isBusy() && rightFront.isBusy() && rightRear.isBusy()) {
             sleep(50);
-
         }
+        {
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -98,29 +104,59 @@ public class OldEncode extends LinearOpMode {
         rightRear.setPower(0);
         leftFront.setPower(0);
         rightFront.setPower(0);
-        leftRear.setPower(0);*/
+        leftRear.setPower(0);
+        }
+}
 
+//----------------------Turn Turn Table-------------------------------------------------------------
+    public void turnTable(){
+        frontTurnTable.setPosition(0.5);
+        backTurnTable.setPosition(-0.5);
+            sleep(500);
+    }
+
+    //---------------------Extend Lift--------------------------------------------------------------
+    public void liftExtend(int encode){
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        lift.setTargetPosition(encode);
+
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        lift.setPower(0.6);
+        while (lift.isBusy()){
+            sleep(50);
+        }
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        lift.setPower(0);
 
     }
 
+    //----------------------Box Drop-----------------------------------------------------------------
+    public void boxDrop(){
+        box.setPosition(0.5);
+        box.setPosition(-0.5);
+            sleep(500);
+    }
 
+  //------------------------Retract Lift-------------------------------------------------------------
+  public void liftRetract(int encode){
+      lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-    //----------------------Lift------------
-    /*public void lift(int encod){
-        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+      lift.setTargetPosition(encode);
 
-        liftMotor.setTargetPosition(encod);
+      lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+      lift.setPower(-0.6);
+      while (lift.isBusy()){
+          sleep(50);
+      }
+      lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        liftMotor.setPower(0.6);
-        while (liftMotor.isBusy()){
-            sleep(50);
-        }
-        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+      lift.setPower(0);
 
-        liftMotor.setPower(0);
-
-    }*/
+  }
 }
+
 
