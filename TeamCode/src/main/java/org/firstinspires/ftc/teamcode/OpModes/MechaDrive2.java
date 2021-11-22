@@ -16,11 +16,10 @@ public class MechaDrive2 extends OpMode {
     private DcMotor leftFront;
     private DcMotor leftRear;
     private DcMotor lift;
-    private DcMotor backIntake;
     private DcMotor frontIntake;
-    private Servo frontTurnTable;
-    private Servo backTurnTable;
-    private Servo box;
+    private CRServo frontTurnTable;
+    private CRServo backTurnTable;
+    private CRServo box;
     private DcMotor ducky;
 
 
@@ -38,11 +37,11 @@ public class MechaDrive2 extends OpMode {
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         lift = hardwareMap.get(DcMotor.class, "lift");
         frontIntake = hardwareMap.get(DcMotor.class, "frontIntake");
-        backIntake = hardwareMap.get(DcMotor.class,"backIntake");
-        frontTurnTable = hardwareMap.get(Servo.class,"frontTurnTable");
-        backTurnTable = hardwareMap.get(Servo.class, "backTurnTable");
-        box = hardwareMap.get(Servo.class, "box");
+        frontTurnTable = hardwareMap.get(CRServo.class,"frontTurnTable");
+        backTurnTable = hardwareMap.get(CRServo.class, "backTurnTable");
+        box = hardwareMap.get(CRServo.class, "box");
         ducky = hardwareMap.get(DcMotor.class, "ducky");
+
 
         //liftMotor = hardwareMap.get(DcMotor.class,"liftMotor");
        // rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -75,47 +74,44 @@ public class MechaDrive2 extends OpMode {
         }
         //Turn Table--------------------------------------------------------------------------------
         if(gamepad2.dpad_right){
-            frontTurnTable.setPosition(1);
-            backTurnTable.setPosition(-1.0);
+            frontTurnTable.setPower(1.0);
+            backTurnTable.setPower(-1.0);
                  }
         else if(gamepad2.dpad_left)         // Still Need to Change Values for Turn Tables
         {                                   // Just basic starter Code
-            frontTurnTable.setPosition(-1);
-            backTurnTable.setPosition(1.0);
+            frontTurnTable.setPower(-1.0);
+            backTurnTable.setPower(1.0);
         }
         else{
-            frontTurnTable.setPosition(0);
-            backTurnTable.setPosition(0);
+            frontTurnTable.setPower(0);
+            backTurnTable.setPower(0);
         }
         // Lift ------------------------------------------------------------------------------------
         if(gamepad2.dpad_up){
             lift.setPower(0.5);
         }
         else if(gamepad2.dpad_down){
-            lift.setPower(-0.1);
+            lift.setPower(-0.5);
         }
         else {
-            lift.setPower(0.15);
+            lift.setPower(0.0);
         }
 
         //Intake-----------------------------------------------------------------------------------
         if(gamepad2.right_bumper){
           frontIntake.setPower(1.0);
-          backIntake.setPower(-1.0);
         }
         else if(gamepad2.left_bumper){
             frontIntake.setPower(-1.0);
-            backIntake.setPower(1.0);
         } else {
             frontIntake.setPower(0.0);
-            backIntake.setPower(0.0);
         }
        // Box----------------------------------------------------------------------------------------
        if (gamepad2.a){
-            box.setPosition(5);
+            box.setPower(5);
            }
        else {
-            box.setPosition(-5);
+            box.setPower(-5);
        }
        // Duck Spinner-------------------------------------------------------------------------------
 

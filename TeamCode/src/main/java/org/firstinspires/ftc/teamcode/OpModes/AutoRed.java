@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous
 
-public class OldEncode extends LinearOpMode {
+public class AutoRed extends LinearOpMode {
     private DcMotor rightFront;
     private DcMotor rightRear;
     private DcMotor leftFront;
@@ -108,23 +108,23 @@ public class OldEncode extends LinearOpMode {
             sleep(50);
         }
         {
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        rightRear.setPower(0);
-        leftFront.setPower(0);
-        rightFront.setPower(0);
-        leftRear.setPower(0);
+            rightRear.setPower(0);
+            leftFront.setPower(0);
+            rightFront.setPower(0);
+            leftRear.setPower(0);
         }
-}
+    }
 
-//----------------------Turn Turn Table-------------------------------------------------------------
+    //----------------------Turn Turn Table-------------------------------------------------------------
     public void turnTable(){
-        frontTurnTable.setPosition(0.5);
-        backTurnTable.setPosition(-0.5);
-            sleep(500);
+        frontTurnTable.setPosition(-0.5);
+        backTurnTable.setPosition(0.5);
+        sleep(500);
     }
 
     //---------------------Extend Lift--------------------------------------------------------------
@@ -150,34 +150,31 @@ public class OldEncode extends LinearOpMode {
         box.setPosition(0.5);
         sleep(500);
         box.setPosition(-0.5);
-            sleep(500);
+        sleep(500);
     }
 
-  //------------------------Retract Lift-------------------------------------------------------------
-  public void liftRetract(int encode){
-      lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    //------------------------Retract Lift-------------------------------------------------------------
+    public void liftRetract(int encode){
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-      lift.setTargetPosition(encode);
+        lift.setTargetPosition(encode);
 
-      lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-      lift.setPower(-0.6);
-      while (lift.isBusy()){
-          sleep(50);
-      }
-      lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setPower(-0.6);
+        while (lift.isBusy()){
+            sleep(50);
+        }
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-      lift.setPower(0);
+        lift.setPower(0);
 
-  }
+    }
 
-  //-----------------------------------Duck Spinner-------------------------------------------------
+    //-----------------------------------Duck Spinner-------------------------------------------------
     public void ducky(){
-        ducky.setPower(0.36);
+        ducky.setPower(-0.36);
         sleep(500);
         ducky.setPower(0.0);
     }
 }
-
-
-//h
