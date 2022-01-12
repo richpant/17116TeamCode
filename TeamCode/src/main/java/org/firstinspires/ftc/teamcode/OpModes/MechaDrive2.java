@@ -16,10 +16,11 @@ public class MechaDrive2 extends OpMode {
     private DcMotor rightRear;
     private DcMotor leftFront;
     private DcMotor leftRear;
-    private DcMotor lift;
+    private DcMotor leftLift;
+    private DcMotor rightLift;
+    private DcMotor middleLift;
     private DcMotor frontIntake;
-    private CRServo boxLeft;
-    private CRServo boxRight;
+    private Servo box;
     private DcMotor ducky;
 
 
@@ -35,10 +36,11 @@ public class MechaDrive2 extends OpMode {
         leftRear = hardwareMap.get(DcMotor.class, "leftRear");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
-        lift = hardwareMap.get(DcMotor.class, "lift");
+        rightLift = hardwareMap.get(DcMotor.class, "rightLift");
+        leftLift = hardwareMap.get(DcMotor.class, "leftLift");
+        middleLift = hardwareMap.get(DcMotor.class, "middleLift");
         frontIntake = hardwareMap.get(DcMotor.class, "frontIntake");
-        boxRight = hardwareMap.get(CRServo.class, "boxRight");
-        boxLeft = hardwareMap.get(CRServo.class, "boxLeft");
+        box = hardwareMap.get(Servo.class, "box");
         ducky = hardwareMap.get(DcMotor.class, "ducky");
 
 
@@ -82,26 +84,24 @@ public class MechaDrive2 extends OpMode {
 
 
         // Lift ------------------------------------------------------------------------------------
-        int hold = 4;
-        if (gamepad2.dpad_right) {
-            lift.setPower(0.5);
-            hold = 1;
+        if (gamepad2.dpad_up) {
+            rightLift.setTargetPosition(2400);
+            leftLift.setTargetPosition(2400);
+            middleLift.setTargetPosition(500);     //Top Section
         } else if (gamepad2.dpad_left) {
-            lift.setPower(-0.5);
-            hold = 2;
-        } else {
-            lift.setPower(0.0);
-            hold = 0;
+            rightLift.setTargetPosition(2400);
+            leftLift.setTargetPosition(2400);       //Middle Section
+            middleLift.setTargetPosition(500);
+        } else if (gamepad2.dpad_down){
+            rightLift.setPower(500);
+            leftLift.setPower(500);         //Bottom Section
+            middleLift.setPower(500);
+    } else {
+            rightLift.setPower(0.0);
+            leftLift.setPower(0.0);         //Base Position
+            middleLift.setPower(0.0);
         }
-        // Hold Lift-------------------------------------------------------------------------------
-        /*if(hold == 1 && !gamepad1.dpad_up && !gamepad1.dpad_down ) {
-            lift.setPower(0.1);
-        }
-        else if (hold == 2 && !gamepad1.dpad_up && !gamepad1.dpad_down){
-            lift.setPower(0.1);
-        }  else {
-            lift.setPower(0.0);
-        }*/
+
         //Intake-----------------------------------------------------------------------------------
         if (gamepad2.right_trigger >= .1) {
             frontIntake.setPower(1.0);
@@ -113,22 +113,12 @@ public class MechaDrive2 extends OpMode {
 
         //Box----------------------------------------------------------------------------------------
         if (gamepad2.right_bumper) {
-            boxRight.setPower(0.4);
-            boxLeft.setPower(-0.4);
-        } else if (gamepad2.left_bumper) {
-            boxRight.setPower(-0.4);
-            boxLeft.setPower(0.4);
-        } else if (gamepad2.x) {
-            boxLeft.setPower(0.4);
-        } else if (gamepad2.y){
-            boxRight.setPower((0.4));
-        } else if (gamepad2.b) {
-            boxLeft.setPower(-0.4);
-        } else if (gamepad2.a) {
-            boxRight.setPower(-0.4);
+            box.setPosition(90);   //Still need to check at Meet
+        }
+        else if(gamepad2.left_bumper){
+            box.setPosition(-90);
         } else {
-            boxRight.setPower(0);
-            boxLeft.setPower(0);
+            box.setPosition(0.0);
         }
 
         // Duck Spinner-------------------------------------------------------------------------------
