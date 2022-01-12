@@ -4,13 +4,14 @@ import static java.lang.Math.*;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous
 
-public class AutoRed extends LinearOpMode {
+public class redCloseBoxPark extends LinearOpMode {
     private DcMotor rightFront;
     private DcMotor rightRear;
     private DcMotor leftFront;
@@ -18,10 +19,8 @@ public class AutoRed extends LinearOpMode {
     //private Servo flipper;
     private DcMotor lift;
     private DcMotor ducky;
-    private DcMotor raiseLift;
-    private Servo box;
-    private Servo frontTurnTable;
-    private Servo backTurnTable;
+    private CRServo boxRight;
+    private CRServo boxLeft;
 
     @Override
 
@@ -33,11 +32,9 @@ public class AutoRed extends LinearOpMode {
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         //flipper = hardwareMap.get(Servo.class,"flipper");
         lift = hardwareMap.get(DcMotor.class,"lift");
-        box = hardwareMap.get(Servo.class, "box");
-        frontTurnTable = hardwareMap.get(Servo.class, "frontTurnTable");
-        backTurnTable = hardwareMap.get(Servo.class, "backTurnTable");
+        boxRight = hardwareMap.get(CRServo.class, "boxRight");
+        boxLeft = hardwareMap.get(CRServo.class, "boxLeft");
         ducky = hardwareMap.get(DcMotor.class, "ducky");
-        raiseLift = hardwareMap.get(DcMotor.class, "raiseLift");
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -45,19 +42,22 @@ public class AutoRed extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            turnTable();
-            sleep(500);
-            liftExtend(500);
+           /* liftExtend(100);
+            sleep(-100);
+            move(1000,1000,1000,1000);
             sleep(500);
             boxDrop();
             sleep(500);
-            liftRetract(500);
-            move(200,200,200,200);
+            liftRetract(100);
+            sleep(500);
+            move(-1000,-1000,-1000,-1000);
             sleep(1000);
-            ducky();
-            move(-200,-200,-200,-200);
-            sleep(2000);
+            move(200,200,-200,-200);
+            move(200,200,200,200);
+            sleep(2000);*/
 
+            move(.5,.5,.5,.5);
+            sleep(30000);
 
 
         }
@@ -69,12 +69,16 @@ public class AutoRed extends LinearOpMode {
 
         rightRear.setPower(rr);
         leftRear.setPower(lr);
+        rightFront.setPower(-rf);
+        leftFront.setPower(-lf);
 
 
-        sleep(500);
+        sleep(1200);
 
         rightRear.setPower(0);
         leftRear.setPower(0);
+        rightFront.setPower(0);
+        leftFront.setPower(0);
 
         sleep(500);
 
@@ -120,14 +124,10 @@ public class AutoRed extends LinearOpMode {
         }
     }
 
-    //----------------------Turn Turn Table-------------------------------------------------------------
-    public void turnTable(){
-        frontTurnTable.setPosition(-0.5);
-        backTurnTable.setPosition(0.5);
-        sleep(500);
-    }
 
-    //---------------------Extend Lift--------------------------------------------------------------
+
+
+    //---------------------Raise Lift--------------------------------------------------------------
     public void liftExtend(int encode){
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -135,7 +135,7 @@ public class AutoRed extends LinearOpMode {
 
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        lift.setPower(0.6);
+        lift.setPower(0.4);
         while (lift.isBusy()){
             sleep(50);
         }
@@ -145,15 +145,17 @@ public class AutoRed extends LinearOpMode {
 
     }
 
-    //----------------------Box Drop-----------------------------------------------------------------
-    public void boxDrop(){
-        box.setPosition(0.5);
+    //----------------------Box Drop Second Way-----------------------------------------------------------------
+    public void boxDrop() {
+        boxLeft.setPower(-0.25);
+        boxRight.setPower(-0.25);
         sleep(500);
-        box.setPosition(-0.5);
+        boxLeft.setPower(0.25);
+        boxRight.setPower(0.25);
         sleep(500);
     }
 
-    //------------------------Retract Lift-------------------------------------------------------------
+    //------------------------Lower Lift One Way-------------------------------------------------------------
     public void liftRetract(int encode){
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -161,7 +163,7 @@ public class AutoRed extends LinearOpMode {
 
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        lift.setPower(-0.6);
+        lift.setPower(-0.4);
         while (lift.isBusy()){
             sleep(50);
         }
