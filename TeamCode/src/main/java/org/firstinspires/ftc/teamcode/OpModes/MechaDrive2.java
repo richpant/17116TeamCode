@@ -21,7 +21,9 @@ public class MechaDrive2 extends OpMode {
     private DcMotor middleLift;
     private DcMotor frontIntake;
     private Servo box;
-    private DcMotor ducky;
+    private Servo csLeft;
+    private Servo csRight;
+    private Servo csMiddle;
 
 
     /*private DcMotor liftMotor;
@@ -41,7 +43,11 @@ public class MechaDrive2 extends OpMode {
         middleLift = hardwareMap.get(DcMotor.class, "middleLift");
         frontIntake = hardwareMap.get(DcMotor.class, "frontIntake");
         box = hardwareMap.get(Servo.class, "box");
-        ducky = hardwareMap.get(DcMotor.class, "ducky");
+        csLeft = hardwareMap.get(Servo.class, "csLeft");
+        csRight = hardwareMap.get(Servo.class, "csRight");
+        csMiddle = hardwareMap.get(Servo.class, "csMiddle");
+
+       // ducky = hardwareMap.get(DcMotor.class, "ducky");
 
 
         telemetry.addData("Say", "Hello Driver");
@@ -51,25 +57,26 @@ public class MechaDrive2 extends OpMode {
     public void loop() {
         double left;
         double right;
-        /*double rf = gamepad1.right_stick_y -gamepad1.right_stick_x -gamepad1.left_stick_x;
-        double rr = (gamepad1.right_stick_y - gamepad1.right_stick_x +gamepad1.left_stick_x);
-        double lf = gamepad1.right_stick_y + gamepad1.right_stick_x  -gamepad1.left_stick_x;
-        double lr = (-gamepad1.right_stick_y +gamepad1.right_stick_x +gamepad1.left_stick_x);
+        double rf = (gamepad1.right_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x);
+        double rr = (gamepad1.right_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x);
+        double lf = gamepad1.right_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x;
+        double lr = (gamepad1.right_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x) * -1;
         double tablePosition = 0;
-        if(Math.abs(rf) >= 0.1 || Math.abs(rr) >= 0.1 || Math.abs(lf) >= 0.1 || Math.abs(lr) >= 0.1){
+        if (Math.abs(rf) >= 0.1 || Math.abs(rr) >= 0.1 || Math.abs(lf) >= 0.1 || Math.abs(lr) >= 0.1) {
             rightFront.setPower(rf);
             rightRear.setPower(rr);
             leftRear.setPower(lr);
             leftFront.setPower(lf);
-        }
-        else{
+        } else {
             rightFront.setPower(0);
             rightRear.setPower(0);
             leftRear.setPower(0);
             leftFront.setPower(0);
-        }*/
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        }
+        /*rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
         if (gamepad1.right_stick_y >= 0.1 || gamepad1.right_stick_y <= -0.1 || gamepad1.right_stick_x >= 0.1 || gamepad1.right_stick_x <= -0.1 || gamepad1.left_stick_x >= 0.1 || gamepad1.left_stick_x <= -0.1) {
             rightFront.setPower((gamepad1.right_stick_y) - (gamepad1.right_stick_x) - (gamepad1.left_stick_x));
             rightRear.setPower((gamepad1.right_stick_y) + (gamepad1.right_stick_x) - (gamepad1.left_stick_x));
@@ -80,26 +87,21 @@ public class MechaDrive2 extends OpMode {
             rightRear.setPower(0);
             leftFront.setPower(0);
             leftRear.setPower(0);
-        }
+        }*/
 
 
         // Lift ------------------------------------------------------------------------------------
         if (gamepad2.dpad_up) {
-            rightLift.setTargetPosition(2400);
-            leftLift.setTargetPosition(2400);
-            middleLift.setTargetPosition(500);     //Top Section
+            rightLift.setPower(0.9);
+            leftLift.setPower(0.9);
+        } else if (gamepad2.dpad_right) {
+            middleLift.setPower(0.9);     //Top Section
         } else if (gamepad2.dpad_left) {
-            rightLift.setTargetPosition(2400);
-            leftLift.setTargetPosition(2400);       //Middle Section
-            middleLift.setTargetPosition(500);
-        } else if (gamepad2.dpad_down){
-            rightLift.setPower(500);
-            leftLift.setPower(500);         //Bottom Section
-            middleLift.setPower(500);
-    } else {
-            rightLift.setPower(0.0);
-            leftLift.setPower(0.0);         //Base Position
-            middleLift.setPower(0.0);
+            middleLift.setPower(-0.9);
+        } else if (gamepad2.dpad_down) {
+            rightLift.setPower(0);
+            leftLift.setPower(0);
+            middleLift.setPower(0);
         }
 
         //Intake-----------------------------------------------------------------------------------
@@ -112,24 +114,33 @@ public class MechaDrive2 extends OpMode {
         }
 
         //Box----------------------------------------------------------------------------------------
-        if (gamepad2.right_bumper) {
-            box.setPosition(90);   //Still need to check at Meet
-        }
-        else if(gamepad2.left_bumper){
-            box.setPosition(-90);
-        } else {
-            box.setPosition(0.0);
+            if (gamepad2.b) {
+                box.setPosition(0.37);
+                //box.setPosition(0.7);                        //Still need to check at Meet
+            } else if (gamepad2.a) {
+                box.setPosition(-0.7);
+            }
+
+        //Capstone----------------------------------------------------------------------------------
+        if (gamepad2.x) {
+            csRight.setPosition(0.37);
+            csLeft.setPosition(0.37);
+        } else if (gamepad2.y) {
+            csLeft.setPosition(-0.37);
+            csRight.setPosition(-0.37);
+        } else if (gamepad2.right_stick_button) {
+            csMiddle.setPosition(0.37);
         }
 
-        // Duck Spinner-------------------------------------------------------------------------------
 
-        if (gamepad1.right_bumper) {
-            ducky.setPower(0.36);
-        } else if (gamepad1.left_bumper) {
-            ducky.setPower(-0.36);
-        } else {
-            ducky.setPower(0.0);
-        }
+        // Bill-------------------------------------------------------------------------------------
+            if (gamepad1.right_bumper) {
+                frontIntake.setPower(0.36);
+            } else if (gamepad1.left_bumper) {
+                frontIntake.setPower(-0.36);
+            } else {
+                frontIntake.setPower(0.0);
+            }
     }
 
     @Override
