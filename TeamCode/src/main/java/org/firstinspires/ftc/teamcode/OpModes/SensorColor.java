@@ -203,7 +203,7 @@ public class SensorColor extends LinearOpMode {
               .addData("Value", "%.3f", hsvValues[2]);
       telemetry.addData("Alpha", "%.3f", colors.alpha);
 
-      if (colors.red >.15 && colors.green > .15 && colors.blue > .15) {
+      if (colors.red > .22 && colors.green > .35 && colors.blue > .27) {
         telemetry.addLine("");
         telemetry.addLine("works");
         telemetry.addLine("");

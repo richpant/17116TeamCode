@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
 
 @Autonomous
 
-public class redWarehouseColor extends LinearOpMode {
+public class blueWarehouseColor extends LinearOpMode {
     private DcMotorEx rightFront;
     private DcMotorEx rightRear;
     private DcMotorEx leftFront;
@@ -94,13 +94,13 @@ public class redWarehouseColor extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            // raise tape measurer
+            //tape measurer
             tape();
-            /*//forward
+            //forward
             drive(750, 750, 750, 750);
-            //check
             //turn left
-            drive(-450,-450,450,450);
+
+            //check
             leftCScolorCheck();
             rightCScolorCheck();
             drive(-200, 200, 200, -200);
@@ -109,23 +109,20 @@ public class redWarehouseColor extends LinearOpMode {
             driveslow(400,-400,-400,400);
             leftCScolorCheck();
             rightCScolorCheck();
-            driveslow(-200,200,200,-200);*/
-
-            box.setPosition(.25);
-            //forward
-            drive(725, 725, 725, 725);
-            //check
-            leftCScolorCheck();
-            rightCScolorCheck();
-            drive(-200, 200, 200, -200);
-            leftCScolorCheck();
-            rightCScolorCheck();
-            driveslow(250,-250,-250,250);
-            leftCScolorCheck();
-            rightCScolorCheck();
-            driveslow(-100,100,100,-100);
+            driveslow(-200,200,200,-200);
 
             level();
+
+            drive(325, 325, -325, -325);
+            //strafe left
+            driveslow(-1700, 1700, 1700, -1700);
+            //backwards
+            drive(-1250, -1250, -1250, -1250);
+            //bakwards slower
+            driveslow(-500, -500, -500, -500);
+
+
+            sleep(25000);
 
 
 
@@ -220,99 +217,6 @@ public class redWarehouseColor extends LinearOpMode {
     }
 
 
-    /*public void raiseLifttop() {
-        rightLift.setTargetPosition(2180);
-        leftLift.setTargetPosition(2180);
-        middleLift.setTargetPosition(-3089);
-
-        rightLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        middleLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-
-        rightLift.setVelocity(2700);
-        leftLift.setVelocity(2700);
-        middleLift.setVelocity(1500);
-
-        while (leftLift.isBusy() && rightLift.isBusy() && middleLift.isBusy()) {
-            sleep(50);
-        }
-    }
-
-    public void raiseLiftmiddle() {
-        rightLift.setTargetPosition(1450);
-        leftLift.setTargetPosition(1450);
-        middleLift.setTargetPosition(-1900);
-
-        rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        middleLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        rightLift.setVelocity(2700);
-        leftLift.setVelocity(2700);
-        middleLift.setVelocity(1500);
-
-        while (leftLift.isBusy() && rightLift.isBusy() && middleLift.isBusy()) {
-            sleep(50);
-        }
-    }
-
-    public void raiseLiftbottom() {
-        rightLift.setTargetPosition(900);
-        leftLift.setTargetPosition(900);
-        middleLift.setTargetPosition(-2000);
-
-        rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        middleLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        rightLift.setVelocity(2700);
-        leftLift.setVelocity(2700);
-        middleLift.setVelocity(1500);
-
-        while (leftLift.isBusy() && rightLift.isBusy() && middleLift.isBusy()) {
-            sleep(50);
-        }
-    }
-
-
-
-
-    public void boxDrop() {
-        box.setPosition(.4);
-        sleep(2750);
-        box.setPosition(.25);
-        sleep(750);
-    }
-
-
-    public void retractLift() {
-
-
-        middleLift.setTargetPosition(0);
-        middleLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        middleLift.setVelocity(2000); // NEED TO MAKE SLOWER BECAUSE IT HITS INTAKE
-        sleep(500);
-
-        rightLift.setTargetPosition(0);
-        leftLift.setTargetPosition(0);
-
-        rightLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-
-        rightLift.setVelocity(2100);
-        leftLift.setVelocity(2100);
-
-    }
-
-    public void spin() {
-        bill.setVelocity(-2400);
-        sleep(3000);
-        bill.setVelocity(0);
-    }*/
-
-
-
-
     public void raiseLifttop() {
         rightLift.setTargetPosition(2180);
         leftLift.setTargetPosition(2180);
@@ -332,9 +236,9 @@ public class redWarehouseColor extends LinearOpMode {
     }
 
     public void raiseLiftmiddle() {
-        rightLift.setTargetPosition(1700);
-        leftLift.setTargetPosition(1700);
-        middleLift.setTargetPosition(-2275);
+        rightLift.setTargetPosition(1250);
+        leftLift.setTargetPosition(1250);
+        middleLift.setTargetPosition(-2400);
 
         rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -352,7 +256,7 @@ public class redWarehouseColor extends LinearOpMode {
     public void raiseLiftbottom() {
         rightLift.setTargetPosition(900);
         leftLift.setTargetPosition(900);
-        middleLift.setTargetPosition(-1975);
+        middleLift.setTargetPosition(-2300);
 
         rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -383,7 +287,7 @@ public class redWarehouseColor extends LinearOpMode {
 
         middleLift.setTargetPosition(0);
         middleLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        middleLift.setVelocity(3000); // NEED TO MAKE SLOWER BECAUSE IT HITS INTAKE
+        middleLift.setVelocity(2000);
         sleep(500);
 
         rightLift.setTargetPosition(0);
@@ -398,14 +302,10 @@ public class redWarehouseColor extends LinearOpMode {
     }
 
     public void spin() {
-        bill.setVelocity(-2400);
-        sleep(3500);
+        bill.setVelocity(2400);
+        sleep(3000);
         bill.setVelocity(0);
     }
-
-
-
-
 
     public void leftCScolorCheck()
     {
@@ -422,8 +322,8 @@ public class redWarehouseColor extends LinearOpMode {
 
         if (colors.red >.05 && colors.green > .1 && colors.blue > .2) {
 
-            checker = 1;
-            telemetry.addLine("left");
+            checker = 2;
+            telemetry.addLine("middle");
         }
         telemetry.update();
         relativeLayout.post(new Runnable() {
@@ -431,6 +331,7 @@ public class redWarehouseColor extends LinearOpMode {
                 relativeLayout.setBackgroundColor(Color.HSVToColor(hsvValues));
             }
         });
+        sleep(200);
     }
     public void rightCScolorCheck()
     {
@@ -446,7 +347,7 @@ public class redWarehouseColor extends LinearOpMode {
                 .addData("Blue", "%.3f", colors.blue);
         if (colors.red >.05 && colors.green > .1 && colors.blue > .2) {
 
-            checker = 2;
+            checker = 1;
             telemetry.addLine("right");
         }
         telemetry.update();
@@ -455,89 +356,17 @@ public class redWarehouseColor extends LinearOpMode {
                 relativeLayout.setBackgroundColor(Color.HSVToColor(hsvValues));
             }
         });
+        sleep(200);
     }
     public void level()
     {
         if (checker == 1)
         {
-
-            //bottom level
-            telemetry.addLine("bottom");
-            telemetry.update();
-
-            /*bottom level*/
-            telemetry.addLine("bottom");
-            telemetry.update();
-
-            /*turn left*/
-            drive(-400, -400, 400, 400);
-            /*forward slightly*/
-            drive(10,-10, 10, 10);
-            /*lift up*/
-            raiseLiftbottom();
-            sleep(1000);
-            rightLift.setVelocity(1500);
-            leftLift.setVelocity(1500);
-            /*drop cube*/
-            boxDrop();
-            sleep(1000);
-            /*lift down*/
-            retractLift();
-            verticalCS.setPosition(0);
-            //backup same amount of drive forward 11 lines before
-            drive(-250,-250,-250,-250);
-            drive(-200,-200,-200,-200);
-            //turn left more
-            drive(-350,-350,350,350);
-            //strafe left
-            driveslow(1700,-1700,-1700,1700);
-            //backwards
-            drive(-1750,-1750,-1750,-1750);
-            //drive slow into warehouse
-            driveslow(-300,-300,-300,-300);
-
-        }
-        else if (checker == 2)
-        {
-            //middle level
-            telemetry.addLine("middle");
-            telemetry.update();
-            //turn left
-            drive(-400, -400, 400, 400);
-            //forward slightly
-            drive(0, 0, 0, 0);
-            //lift up
-            raiseLiftmiddle();
-            sleep(1000);
-            rightLift.setVelocity(1500);
-            leftLift.setVelocity(1500);
-            //drop cube
-            boxDrop();
-            sleep(1000);
-            //lift down
-            retractLift();
-            verticalCS.setPosition(0);
-            //backup same amount of drive forward 11 lines before
-            drive(-250,-250,-250,-250);
-            drive(-200,-200,-200,-200);
-            //turn left more
-            drive(-350,-350,350,350);
-            //strafe left
-            driveslow(1700,-1700,-1700,1700);
-            //backwards
-            drive(-1750,-1750,-1750,-1750);
-            //drive slow into warehouse
-            driveslow(-300,-300,-300,-300);
-
-
-        }
-        else
-        {
-            //top level
+           /* //top level
             telemetry.addLine("top");
             telemetry.update();
             //turn left
-            drive(-400, -400, 400, 400);
+            drive(400, 400, -400, -400);
             //forward slightly
             drive(250, 250, 250, 250);
             //lift up
@@ -551,23 +380,109 @@ public class redWarehouseColor extends LinearOpMode {
             //lift down
             retractLift();
             //backup same amount of drive forward 11 lines before
+            drive(-250,-250,-250,-250);*/
+
+            //top level
+            telemetry.addLine("top");
+            telemetry.update();
+            //turn left
+            drive(400, 400, -400, -400);
+            //forward slightly
+            drive(250, 250, 250, 250);
+            //lift up
+            raiseLifttop();
+            sleep(1000);
+            rightLift.setVelocity(1500);
+            leftLift.setVelocity(1500);
+            //drop cube
+            boxDrop();
+            sleep(1000);
+            //lift down
+            retractLift();
+            verticalCS.setPosition(0);
+            //backup same amount of drive forward 11 lines before
             drive(-250,-250,-250,-250);
-            drive(-200,-200,-200,-200);
-            //turn left more
-            drive(-350,-350,350,350);
-            //strafe left
-            driveslow(1700,-1700,-1700,1700);
-            //backwards
-            drive(-1750,-1750,-1750,-1750);
-            //drive slow into warehouse
-            driveslow(-300,-300,-300,-300);
+
+        }
+        else if (checker == 2)
+        {
+           /* //middle level
+            telemetry.addLine("middle");
+            telemetry.update();
+            //turn left
+            drive(400, 400, -400, -400);
+            //forward slightly
+            drive(250, 250, 250, 250);
+            //lift up
+            raiseLiftmiddle();
+            sleep(1000);
+            rightLift.setVelocity(1500);
+            leftLift.setVelocity(1500);
+            //drop cube
+            boxDrop();
+            sleep(1000);
+            //lift down
+            retractLift();
+            //backup same amount of drive forward 11 lines before
+            drive(-250,-250,-250,-250);*/
+
+            //middle level
+            telemetry.addLine("middle");
+            telemetry.update();
+            //turn left
+            drive(200, 400, -400, -400);
+            //forward slightly
+            drive(200, 200, 200, 200);
+            //lift up
+            raiseLiftmiddle();
+            sleep(1000);
+            rightLift.setVelocity(1500);
+            leftLift.setVelocity(1500);
+            //drop cube
+            boxDrop();
+            sleep(1000);
+            //lift down
+            sleep(1000);
+            //lift down
+            retractLift();
+            verticalCS.setPosition(0);
+            //backup same amount of drive forward 11 lines before
+            drive(-250,-250,-250,-250);
+
+        }
+        else
+        {
+            //bottom level
+            telemetry.addLine("bottom");
+            telemetry.update();
+
+            //turn left
+            drive(400, 400, -400, -400);
+            //forward slightly
+            drive(250, 250, 250, 250);
+            //lift up
+            raiseLiftbottom();
+            sleep(1000);
+            rightLift.setVelocity(1500);
+            leftLift.setVelocity(1500);
+            //drop cube
+            boxDrop();
+            sleep(1000);
+            //lift down
+            sleep(1000);
+            //lift down
+            retractLift();
+            verticalCS.setPosition(0);
+            //backup same amount of drive forward 11 lines before
+            drive(-250,-250,-250,-250);;
+
 
         }
     }
 
     public void tape()
     {
-        verticalCS.setPosition(0.7);
+        verticalCS.setPosition(0.5);
         sleep(1000);
     }
 }

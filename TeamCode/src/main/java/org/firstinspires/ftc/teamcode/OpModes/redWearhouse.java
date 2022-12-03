@@ -218,9 +218,9 @@ public class redWearhouse extends LinearOpMode {
 
     public void boxDrop()
     {
-        box.setPosition(-0.37);
+        box.setPosition(.875);
         sleep(750);
-        box.setPosition(0.37);
+        box.setPosition(-1.0);
         sleep(750);
     }
 

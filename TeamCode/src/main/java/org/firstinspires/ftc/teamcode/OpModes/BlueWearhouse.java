@@ -70,7 +70,7 @@ public class BlueWearhouse extends LinearOpMode {
             //tape measurer
             tape();
             //forward
-            drive (1025,1025,1025,1025);
+            drive(750, 750, 750, 750);
             //turn left
             drive(450,450,-450,-450);
             //forward slightly

@@ -30,6 +30,7 @@ public class blueDuckSquareColor extends LinearOpMode {
     NormalizedColorSensor rightCS;
     NormalizedColorSensor boxCS;
     private Servo verticalCS;
+    private Servo horizontalCS;
 
     View relativeLayout;
     int checker = 3;
@@ -47,12 +48,13 @@ public class blueDuckSquareColor extends LinearOpMode {
         bill = hardwareMap.get(DcMotorEx.class, "bill");
         box = hardwareMap.get(Servo.class, "box");
         verticalCS = hardwareMap.get(Servo.class, "verticalCS");
-
+        horizontalCS = hardwareMap.get(Servo.class, "horizontalCS");
         int relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
         relativeLayout = ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
 
 
-
+        double xPos = .95;
+        double yPos = .7;
 
 
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -96,42 +98,21 @@ public class blueDuckSquareColor extends LinearOpMode {
         while (opModeIsActive()) {
             // raise tape measurer
             tape();
+            box.setPosition(.25);
             //forward
-            drive(700, 700, 690, 690);
+            drive(700, 700, 700, 700);
             //check
             leftCScolorCheck();
             rightCScolorCheck();
-            driveslow(100,100,-100,-100);
+            drive(-200, 200, 200, -200);
             leftCScolorCheck();
             rightCScolorCheck();
-            driveslow(-200,-200,200,200);
+            driveslow(250,-250,-250,250);
             leftCScolorCheck();
             rightCScolorCheck();
-            driveslow(100,100,-100,-100);
+            driveslow(-100,100,100,-100);
 
             level();
-
-            //backwards
-            drive(-1375, -1375, -1375, -1375);
-            //turn left slightly
-            drive(-300, -300, 300, 300);
-            //turn left slightly
-            drive(-200, -200, 200, 200);
-            //back into duck wheel
-            driveslow(-350, -350, -350, -350);
-            //spin duck
-            spin();
-            //drive forward slightly
-            drive(-150, -150, -150, -150);
-            //spin duck
-            spin();
-            //drive backwards slightly
-            drive(200, 200, 200, 200);
-            //strafe left
-            drive(-1400, 1400, 1400, -1400);
-            //drive into park
-            drive(500, 500, 500, 500);
-
 
             sleep(25000);
 
@@ -178,7 +159,7 @@ public class blueDuckSquareColor extends LinearOpMode {
             rightFront.setVelocity(0);
             leftRear.setVelocity(0);
         }
-        sleep(500);
+        sleep(250);
 
     }
 
@@ -243,9 +224,9 @@ public class blueDuckSquareColor extends LinearOpMode {
     }
 
     public void raiseLiftmiddle() {
-        rightLift.setTargetPosition(1250);
-        leftLift.setTargetPosition(1250);
-        middleLift.setTargetPosition(-2400);
+        rightLift.setTargetPosition(1700);
+        leftLift.setTargetPosition(1700);
+        middleLift.setTargetPosition(-2275);
 
         rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -263,7 +244,7 @@ public class blueDuckSquareColor extends LinearOpMode {
     public void raiseLiftbottom() {
         rightLift.setTargetPosition(900);
         leftLift.setTargetPosition(900);
-        middleLift.setTargetPosition(-2300);
+        middleLift.setTargetPosition(-1875);
 
         rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -282,9 +263,9 @@ public class blueDuckSquareColor extends LinearOpMode {
 
 
     public void boxDrop() {
-        box.setPosition(.875);
-        sleep(750);
-        box.setPosition(-1.0);
+        box.setPosition(.4);
+        sleep(2750);
+        box.setPosition(.25);
         sleep(750);
     }
 
@@ -294,7 +275,7 @@ public class blueDuckSquareColor extends LinearOpMode {
 
         middleLift.setTargetPosition(0);
         middleLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        middleLift.setVelocity(2000); // NEED TO MAKE SLOWER BECAUSE IT HITS INTAKE
+        middleLift.setVelocity(3000); // NEED TO MAKE SLOWER BECAUSE IT HITS INTAKE
         sleep(500);
 
         rightLift.setTargetPosition(0);
@@ -310,7 +291,7 @@ public class blueDuckSquareColor extends LinearOpMode {
 
     public void spin() {
         bill.setVelocity(-2400);
-        sleep(3000);
+        sleep(3500);
         bill.setVelocity(0);
     }
 
@@ -327,7 +308,7 @@ public class blueDuckSquareColor extends LinearOpMode {
                 .addData("Green", "%.3f", colors.green)
                 .addData("Blue", "%.3f", colors.blue);
 
-        if (colors.red >.15 && colors.green > .15 && colors.blue > .15) {
+        if (colors.green > .2) {
 
             checker = 1;
             telemetry.addLine("left");
@@ -338,7 +319,6 @@ public class blueDuckSquareColor extends LinearOpMode {
                 relativeLayout.setBackgroundColor(Color.HSVToColor(hsvValues));
             }
         });
-        sleep(200);
     }
     public void rightCScolorCheck()
     {
@@ -352,7 +332,7 @@ public class blueDuckSquareColor extends LinearOpMode {
                 .addData("Red", "%.3f", colors.red)
                 .addData("Green", "%.3f", colors.green)
                 .addData("Blue", "%.3f", colors.blue);
-        if (colors.red >.15 && colors.green > .15 && colors.blue > .15) {
+        if (colors.green > .2) {
 
             checker = 2;
             telemetry.addLine("right");
@@ -363,44 +343,61 @@ public class blueDuckSquareColor extends LinearOpMode {
                 relativeLayout.setBackgroundColor(Color.HSVToColor(hsvValues));
             }
         });
-        sleep(200);
     }
     public void level()
     {
         if (checker == 1)
         {
 
-
-            //bottom level
+            /*bottom level*/
             telemetry.addLine("bottom");
             telemetry.update();
 
-            //turn left
+            /*turn left*/
             drive(-400, -400, 400, 400);
-            //forward slightly
-            drive(250, 250, 250, 250);
-            //lift up
+            /*forward slightly*/
+            drive(10,-10, 10, 10);
+            /*lift up*/
             raiseLiftbottom();
             sleep(1000);
             rightLift.setVelocity(1500);
             leftLift.setVelocity(1500);
-            //drop cube
+            /*drop cube*/
             boxDrop();
             sleep(1000);
-            //lift down
+            /*lift down*/
             retractLift();
-            //backup same amount of drive forward 11 lines before
-            drive(-250,-250,-250,-250);
+            verticalCS.setPosition(0);
+            /*backup same amount of drive forward 11 lines before*/
+            drive(-150,-150,-150,-150);
+            /*backwards*/
+            drive(-875, -875, -875, -875);//-875
+            /*turn left*/
+            drive(-625, -625, 625, 625);
+            /*back into duck wheel*/
+            driveslow(-650, -650, -650, -650);
+            /*spin duck*/
+            spin();
+            /*drive forward slightly*/
+            //drive(-150, -150, -150, -150);
+            //spin duck
+            //spin();
+            //drive backwards slightly
+            drive(200, 200, 200, 200);
+            //strafe left
+            drive(-1370, 1370, 1370, -1370);
+            //drive into park
+            drive(-500, -500, -500, -500);
         }
         else if (checker == 2)
         {
-            //middle level
+           /* //middle level
             telemetry.addLine("middle");
             telemetry.update();
             //turn left
             drive(-400, -400, 400, 400);
             //forward slightly
-            drive(250, 250, 250, 250);
+            drive(80, 80, 80, 80);
             //lift up
             raiseLiftmiddle();
             sleep(1000);
@@ -411,8 +408,64 @@ public class blueDuckSquareColor extends LinearOpMode {
             sleep(1000);
             //lift down
             retractLift();
+            verticalCS.setPosition(0);
             //backup same amount of drive forward 11 lines before
-            drive(-250,-250,-250,-250);
+            drive(-150,-150,-150,-150);
+            //backwards
+            drive(-875, -875, -875, -875);
+            //turn left
+            drive(-650, -650, 650, 650);
+            //back into duck wheel
+            driveslow(-650, -650, -650, -650);
+            //spin duck
+            spin();
+            //drive forward slightly
+            //drive(-150, -150, -150, -150);
+            //spin duck
+            //spin();
+            //drive backwards slightly
+            drive(200, 200, 200, 200);
+            //strafe left
+            drive(-1400, 1400, 1400, -1400);
+            //drive into park
+            drive(-500, -500, -500, -500);*/
+
+            //middle level
+            telemetry.addLine("middle");
+            telemetry.update();
+            //turn left
+            drive(-400, -400, 400, 400);
+            //forward slightly
+            drive(0, 0, 0, 0);
+            //lift up
+            raiseLiftmiddle();
+            sleep(1000);
+            rightLift.setVelocity(1500);
+            leftLift.setVelocity(1500);
+            //drop cube
+            boxDrop();
+            sleep(1000);
+            //lift down
+            retractLift();
+            verticalCS.setPosition(0);
+            //backwards
+            drive(-850, -850, -850, -850);
+            //turn left
+            drive(-600, -600, 600, 600);
+            //back into duck wheel
+            driveslow(-650, -650, -650, -650);
+            //spin duck
+            spin();
+            //drive forward slightly
+            //drive(-150, -150, -150, -150);
+            //spin duck
+            //spin();
+            //drive backwards slightly
+            drive(200, 200, 200, 200);
+            //strafe left
+            drive(-1400, 1400, 1400, -1400);
+            //drive into park
+            drive(-500, -500, -500, -500);
 
         }
         else
@@ -423,7 +476,7 @@ public class blueDuckSquareColor extends LinearOpMode {
             //turn left
             drive(-400, -400, 400, 400);
             //forward slightly
-            drive(250, 250, 250, 250);
+            drive(10, 10, 10, 10);
             //lift up
             raiseLifttop();
             sleep(1000);
@@ -436,13 +489,31 @@ public class blueDuckSquareColor extends LinearOpMode {
             retractLift();
             //backup same amount of drive forward 11 lines before
             drive(-250,-250,-250,-250);
+            //backwards
+            drive(-875, -875, -875, -875);
+            //turn left slightly
+            drive(-600, -200, 200, 200);
+            //back into duck wheel
+            driveslow(-600, -600, -600, -600);
+            //spin duck
+            spin();
+            //drive forward slightly
+            //drive(-150, -150, -150, -150);
+            //spin duck
+            //spin();
+            //drive backwards slightly
+            drive(200, 200, 200, 200);
+            //strafe left
+            drive(-1400, 1400, 1400, -1400);
+            //drive into park
+            drive(-500, -500, -500, -500);
 
         }
     }
 
     public void tape()
     {
-        verticalCS.setPosition(0.5);
-        sleep(1000);
+        verticalCS.setPosition(.7);
+        horizontalCS.setPosition(.95);
     }
 }
